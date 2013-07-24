@@ -1,0 +1,7 @@
+1. Import the Project in Eclipse(If import doesn't work make a new project)
+2. Compile the Project
+3. Create a virtual repository /path/to/virtual/directory for the directory of the image repository(Sample context file imagestats#repo.xml for Tomcat attached in MISC).
+4. Correct the path of the repository(path/to/actual/repository), database(PLDB.db) and the virtual repository address(/path/to/virtual/directory) in jetty-web.xml, context.xml.
+5.Check in Eclipse if the application is running.
+6. Make a context to run the compiled application from external directory in Tomcat(sample extimagestats.xml attached in MISC), or create a war bundle and deploy in Tomcat.
+7. Run the application in Tomcat.
