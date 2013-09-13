@@ -69,7 +69,7 @@ IsWidget {
   private TextButton typeHolder = new TextButton();
   private TextButton saveFinalButton = null;
   private TextButton saveInitialButton = null;
-  private TextButton restoreFaceFinderButton = null;
+  //private TextButton restoreFaceFinderButton = null;
   private TextButton restoreInitialButton = null;
   private TextButton restoreFinalButton = null;
   private TextButton nextButton = null;
@@ -168,16 +168,16 @@ IsWidget {
     BoxLayoutData vBoxData = new BoxLayoutData(new Margins(2, 2, 2, 2));
     //vBoxData.setFlex(1);
  
-    restoreFaceFinderButton = createButton("Restore FaceFinder", new SelectHandler() {
+    /*restoreFaceFinderButton = createButton("Restore FaceFinder", new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
 				resetEdits(false);
 		  	//addFaceMatcherBoxes(imageDetailsRecord.getUrl());
 			}
  
-    });
+    });*/
  
-    buttonBar.add(restoreFaceFinderButton, vBoxData);
+    //buttonBar.add(restoreFaceFinderButton, vBoxData);
 
     restoreInitialButton = createButton("Restore Initial", new SelectHandler() {
 			@Override
@@ -188,7 +188,7 @@ IsWidget {
  
     });
     
-    buttonBar.add(restoreInitialButton, vBoxData);
+    //buttonBar.add(restoreInitialButton, vBoxData);
  
     restoreFinalButton = createButton("Restore", new SelectHandler() {
 			@Override
@@ -211,7 +211,7 @@ IsWidget {
     // TODO Kludge - Disable initial save for gciusers. 
     saveInitialButton.disable();
 
-    buttonBar.add(saveInitialButton, vBoxData);
+    //buttonBar.add(saveInitialButton, vBoxData);
 
     saveFinalButton = createButton("Save", new SelectHandler() {
 			@Override
@@ -285,8 +285,11 @@ IsWidget {
 			public void onSelect(SelectEvent event) {
 				ListView<PLRecord, PLRecord> view = resultsView.getListView();
 				if(cellContext.getIndex() > 0) {
+					authorTypeHolder.setValue(true, false);
+					  saveEditsToDB();
 				  XElement el = view.getElement(cellContext.getIndex() - 1);
 				  fireDblClick(el);
+				  
 				}
 				/*
 				else {
@@ -304,6 +307,8 @@ IsWidget {
 			public void onSelect(SelectEvent event) {
 				ListView<PLRecord, PLRecord> view = resultsView.getListView();
 				if(cellContext.getIndex() < (view.getItemCount() - 1)) {
+					authorTypeHolder.setValue(true, false);
+					  saveEditsToDB();
 				  XElement el = view.getElement(cellContext.getIndex() + 1);
 				  fireDblClick(el);
 				}
@@ -364,14 +369,14 @@ IsWidget {
   	}
   	enablePrevNextButtons();
     if(imageDetailsRecord.getEventShortName().matches(".*skin.*")) {
-    	restoreFaceFinderButton.disable();
+    	//restoreFaceFinderButton.disable();
     	//sradio.setValue(true);
     	toggle.setValue(sradio);
     	//fradio.setValue(false);
     	typeHolder.setValue(sradio.getName());
     }
     else {
-    	restoreFaceFinderButton.enable();
+    	//restoreFaceFinderButton.enable();
     	//fradio.setValue(true);
     	toggle.setValue(fradio);
     	//sradio.setValue(false);
@@ -466,7 +471,7 @@ IsWidget {
   }
  
   void updatePLRecord(GroundTruthRecord gtRec) {
-  	if(gtRec != null && imageDetailsRecord.get_image_id() == gtRec.get_image_id()) {
+  	if(gtRec != null && (imageDetailsRecord.get_image_id()).equalsIgnoreCase(gtRec.get_image_id())) {
   		imageDetailsRecord.set_final_regions(gtRec.get_final_regions());
    		imageDetailsRecord.set_initial_regions(gtRec.get_initial_regions());
    		imageDetailsRecord.set_gt_initial_person(gtRec.get_gt_initial_person());
@@ -512,7 +517,7 @@ IsWidget {
     }
   }
   
-  void addDBBoxes(int image_id) {
+  void addDBBoxes(String image_id) {
   	
   	imagestatsService.getGroundTruthFromDB(image_id, new AsyncCallback<GroundTruthRecord>() {
 
